@@ -117,7 +117,7 @@ export function Desk() {
       <ColorLegend />
 
       <div className="kpi-strip">
-        <div className="kpi">
+        <div className="kpi primary">
           <div className="lab">USDINR</div>
           <div className="val">{formatRate(usd?.rate)}</div>
           <div className="delta">
