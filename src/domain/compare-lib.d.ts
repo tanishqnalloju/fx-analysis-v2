@@ -1,0 +1,16 @@
+export const KEY_BASKET_IDS: string[];
+export const DESK_FX_BASKET_IDS: string[];
+export const DESK_FX_PAIR_IDS: string[];
+export const ASIA_PEER_IDS: string[];
+export const SLIP_DEFAULT_FX_IDS: string[];
+export function filterDeskFxRows(fx: any): any[];
+export function isDeskFxPair(pairOrCode: string): boolean;
+export function isKeyBasket(code: string): boolean;
+export function buildInrPerMap(snap: any): Record<string, number>;
+export function listSelectableCodes(snap: any): string[];
+export function resolveSelected(snap: any, codeRaw: string): any;
+export function buildCompare(snap: any, codeRaw: string): any;
+export function majorPickerCodes(snap: any): string[];
+export function listFxCodes(snap: any): string[];
+export function buildSlipMatrix(snap: any, history?: any, opts?: any): any;
+export function filterCurrencyUniverse(codes: string[], keyOnly?: boolean): string[];

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" data-palette="graphite" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="description" content="FX Analysis v2 — INR real-strength research desk (staging)." />
+    <title>FX Analysis v2</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&display=swap" rel="stylesheet" />
+    <script>
+      (function () {
+        try {
+          var p = localStorage.getItem("fxv2-palette") || "graphite";
+          var t = localStorage.getItem("fxv2-theme") || "dark";
+          document.documentElement.setAttribute("data-palette", p);
+          document.documentElement.setAttribute("data-theme", t);
+        } catch (e) {}
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

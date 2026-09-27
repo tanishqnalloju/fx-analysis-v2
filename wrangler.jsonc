@@ -1,0 +1,25 @@
+{
+  "name": "fx-analysis-v2",
+  "account_id": "2161e11f506e6d2afde89f05a6f438eb",
+  "main": "src/worker.js",
+  "compatibility_date": "2026-09-01",
+  "workers_dev": true,
+  "routes": [
+    {
+      "pattern": "v2.fx-analysis.tanishqnalloju.com",
+      "custom_domain": true
+    }
+  ],
+  "kv_namespaces": [
+    {
+      "binding": "DATA",
+      "id": "05be48d5b28d447d950d2b614e749df6"
+    }
+  ],
+  "assets": {
+    "directory": "./dist",
+    "binding": "ASSETS",
+    "not_found_handling": "single-page-application",
+    "run_worker_first": ["/api/*"]
+  }
+}
