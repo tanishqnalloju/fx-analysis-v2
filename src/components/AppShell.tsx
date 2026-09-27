@@ -18,7 +18,7 @@ export function AppShell() {
       <header className="shell">
         <div className="shell-inner">
           <div className="brand">
-            FX ANALYSIS <em>v2</em>
+            FX ANALYSIS
           </div>
           <nav className="nav" aria-label="Primary">
             {NAV.map((n) => (
@@ -36,8 +36,7 @@ export function AppShell() {
         <Outlet />
       </main>
       <footer className="site-foot mono faint">
-        FX Analysis v2 · staging · read-only KV · research commentary, not advice ·{" "}
-        <a href="https://fx-analysis.tanishqnalloju.com">v1 live</a>
+        FX Analysis · research commentary, not investment advice · snapshot-only KV
       </footer>
     </>
   );

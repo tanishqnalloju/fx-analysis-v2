@@ -6,6 +6,10 @@
   "workers_dev": true,
   "routes": [
     {
+      "pattern": "fx-analysis.tanishqnalloju.com",
+      "custom_domain": true
+    },
+    {
       "pattern": "v2.fx-analysis.tanishqnalloju.com",
       "custom_domain": true
     }

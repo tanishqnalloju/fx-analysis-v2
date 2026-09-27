@@ -4,7 +4,7 @@ import type { Regime } from "./regime";
 import { findFx, findHard, formatPct } from "./format";
 
 export const ASIA_PEER_IDS = ["KRW", "TWD", "IDR", "VND", "THB"];
-export const SITE_ORIGIN = "https://v2.fx-analysis.tanishqnalloju.com";
+export const SITE_ORIGIN = "https://fx-analysis.tanishqnalloju.com";
 
 export function buildRealStrengthBlurb(snap: Snapshot, regime: Regime | null) {
   const usd = findFx(snap.fx, "USDINR");

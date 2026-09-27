@@ -23,7 +23,7 @@ function json(data, status = 200) {
 async function loadBakedAsset(env, request, path) {
   if (!env.ASSETS) return null;
   try {
-    const base = request?.url || "https://v2.fx-analysis.tanishqnalloju.com/";
+    const base = request?.url || "https://fx-analysis.tanishqnalloju.com/";
     const assetUrl = new URL(path, base);
     const res = await env.ASSETS.fetch(new Request(assetUrl));
     if (!res.ok) return null;

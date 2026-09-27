@@ -1,29 +1,14 @@
-# FX Analysis v2
+# FX Analysis
 
-Staging redesign of the INR real-strength research desk.
+INR real-strength research desk.
 
-- **Worker:** `fx-analysis-v2` (NOT `fx-analysis`)
-- **Host:** https://v2.fx-analysis.tanishqnalloju.com
-- **KV:** same `DATA` namespace as v1 — **read only** on this Worker
-- **No cron / no `/api/refresh`** — refresh remains on v1 (`fx-analysis`)
+- **Production:** https://fx-analysis.tanishqnalloju.com  
+- **Staging alias:** https://v2.fx-analysis.tanishqnalloju.com  
+- **Worker (UI):** `fx-analysis-v2` (Vite + React, read-only KV)  
+- **Worker (cron/KV writer):** `fx-analysis` — schedule `30 3 * * *` UTC, **do not delete**
 
-Do not confuse with production v1: https://fx-analysis.tanishqnalloju.com
+Same KV namespace `DATA` / `05be48d5b28d447d950d2b614e749df6`.
 
-## Stack
+Themes: Graphite · Slate · Warm · Nord × Dark · Light · System.
 
-Vite + React + TypeScript + React Router. Themes: Graphite | Slate | Warm | Nord × Dark | Light (default Graphite Dark). Tokens from design SoT Pass 3.
-
-## Scripts
-
-```bash
-npm install
-npm run build
-node scripts/verify-wrangler-name.mjs   # must print fx-analysis-v2
-npx wrangler deploy                    # from this directory only
-```
-
-## Safety
-
-- Never deploy Worker named `fx-analysis` or `inr-real` from this repo.
-- Never modify `/workspace/inr-real`.
-- Honest empties `—`; no invented prices / REER / Δ%; no buy/sell language.
+Research commentary only — not investment advice. No invented prices/REER.
