@@ -223,3 +223,9 @@ select.theme-btn {
   background-repeat: no-repeat;
 }
 
+
+
+.theme-toggle {
+  min-width: 3.6rem;
+  text-transform: capitalize;
+}
