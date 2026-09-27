@@ -13,9 +13,17 @@
       (function () {
         try {
           var p = localStorage.getItem("fxv2-palette") || "graphite";
-          var t = localStorage.getItem("fxv2-theme") || "dark";
+          var pref = localStorage.getItem("fxv2-theme") || "dark";
+          var resolved = pref;
+          if (pref === "system") {
+            resolved = window.matchMedia("(prefers-color-scheme: light)").matches
+              ? "light"
+              : "dark";
+          }
+          if (resolved !== "light" && resolved !== "dark") resolved = "dark";
           document.documentElement.setAttribute("data-palette", p);
-          document.documentElement.setAttribute("data-theme", t);
+          document.documentElement.setAttribute("data-theme", resolved);
+          document.documentElement.setAttribute("data-theme-pref", pref);
         } catch (e) {}
       })();
     </script>

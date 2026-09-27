@@ -230,3 +230,15 @@ select.theme-btn {
   background-size: 4px 4px, 4px 4px;
   background-repeat: no-repeat;
 }
+
+.theme-toggle {
+  min-width: 3.4rem;
+  font-variant-numeric: tabular-nums;
+  text-transform: capitalize;
+}
+html[data-theme-pref="system"] .theme-toggle::after {
+  content: " · sys";
+  opacity: 0.55;
+  font-size: 9px;
+  text-transform: lowercase;
+}

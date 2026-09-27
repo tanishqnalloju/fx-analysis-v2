@@ -1,11 +1,13 @@
 export type Palette = "graphite" | "slate" | "warm" | "nord";
-export type ThemeMode = "dark" | "light";
+/** Stored preference — system follows OS prefers-color-scheme */
+export type ThemeMode = "dark" | "light" | "system";
+export type ResolvedTheme = "dark" | "light";
 
 const PALETTE_KEY = "fxv2-palette";
 const THEME_KEY = "fxv2-theme";
 
 export const PALETTES: Palette[] = ["graphite", "slate", "warm", "nord"];
-export const MODES: ThemeMode[] = ["dark", "light"];
+export const MODES: ThemeMode[] = ["dark", "light", "system"];
 
 export function getPalette(): Palette {
   try {
@@ -23,15 +25,38 @@ export function getThemeMode(): ThemeMode {
   return "dark";
 }
 
+export function resolveMode(mode: ThemeMode): ResolvedTheme {
+  if (mode === "light") return "light";
+  if (mode === "dark") return "dark";
+  if (typeof window !== "undefined" && window.matchMedia) {
+    return window.matchMedia("(prefers-color-scheme: light)").matches
+      ? "light"
+      : "dark";
+  }
+  return "dark";
+}
+
 export function applyTheme(palette: Palette, mode: ThemeMode) {
+  const resolved = resolveMode(mode);
   document.documentElement.setAttribute("data-palette", palette);
-  document.documentElement.setAttribute("data-theme", mode);
+  document.documentElement.setAttribute("data-theme", resolved);
+  document.documentElement.setAttribute("data-theme-pref", mode);
   try {
     localStorage.setItem(PALETTE_KEY, palette);
     localStorage.setItem(THEME_KEY, mode);
   } catch {}
 }
 
+/** Flip dark ↔ light; leaves system for the mode select / cycle */
+export function toggleDarkLight(current: ThemeMode): ThemeMode {
+  const resolved = resolveMode(current);
+  return resolved === "dark" ? "light" : "dark";
+}
+
 export function themeBadge(palette: Palette, mode: ThemeMode) {
+  const resolved = resolveMode(mode);
+  if (mode === "system") {
+    return `THEME · ${palette.toUpperCase()} · SYSTEM (${resolved.toUpperCase()})`;
+  }
   return `THEME · ${palette.toUpperCase()} · ${mode.toUpperCase()}`;
 }
