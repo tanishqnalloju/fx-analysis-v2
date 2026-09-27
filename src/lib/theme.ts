@@ -47,16 +47,4 @@ export function applyTheme(palette: Palette, mode: ThemeMode) {
   } catch {}
 }
 
-/** Flip dark ↔ light; leaves system for the mode select / cycle */
-export function toggleDarkLight(current: ThemeMode): ThemeMode {
-  const resolved = resolveMode(current);
-  return resolved === "dark" ? "light" : "dark";
-}
 
-export function themeBadge(palette: Palette, mode: ThemeMode) {
-  const resolved = resolveMode(mode);
-  if (mode === "system") {
-    return `THEME · ${palette.toUpperCase()} · SYSTEM (${resolved.toUpperCase()})`;
-  }
-  return `THEME · ${palette.toUpperCase()} · ${mode.toUpperCase()}`;
-}

@@ -3,9 +3,6 @@ import {
   applyTheme,
   getPalette,
   getThemeMode,
-  resolveMode,
-  themeBadge,
-  toggleDarkLight,
   type Palette,
   type ThemeMode,
   PALETTES,
@@ -20,7 +17,6 @@ export function ThemeControl() {
     applyTheme(palette, mode);
   }, [palette, mode]);
 
-  // When preference is system, follow OS changes
   useEffect(() => {
     if (mode !== "system" || typeof window === "undefined" || !window.matchMedia) {
       return;
@@ -31,10 +27,8 @@ export function ThemeControl() {
     return () => mq.removeEventListener("change", onChange);
   }, [mode, palette]);
 
-  const resolved = resolveMode(mode);
-
   return (
-    <div className="theme-control" title={themeBadge(palette, mode)}>
+    <div className="theme-control">
       <label className="sr-only" htmlFor="palette-select">
         Palette
       </label>
@@ -52,19 +46,11 @@ export function ThemeControl() {
         ))}
       </select>
 
-      <button
-        type="button"
-        className="theme-btn theme-toggle"
-        onClick={() => setMode(toggleDarkLight(mode))}
-        aria-label={
-          resolved === "dark" ? "Switch to light theme" : "Switch to dark theme"
-        }
-        title="Toggle dark / light"
-      >
-        {resolved === "dark" ? "Dark" : "Light"}
-      </button>
-
+      <label className="sr-only" htmlFor="mode-select">
+        Color mode
+      </label>
       <select
+        id="mode-select"
         className="theme-btn"
         value={mode}
         onChange={(e) => setMode(e.target.value as ThemeMode)}
@@ -76,8 +62,6 @@ export function ThemeControl() {
           </option>
         ))}
       </select>
-
-      <span className="theme-badge mono faint">{themeBadge(palette, mode)}</span>
     </div>
   );
 }
