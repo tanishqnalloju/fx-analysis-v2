@@ -59,8 +59,47 @@ async function loadHistoryBase(env, request) {
   return null;
 }
 
+
+/** Read-only long daily history from Frankfurter (ECB reference), cross via USD. Edge-cached 6h. */
+async function loadLongHistory(env, request, ctx) {
+  const cache = typeof caches !== "undefined" ? caches.default : null;
+  const key = new Request("https://cache.internal/longhistory-v1");
+  if (cache) {
+    const hit = await cache.match(key);
+    if (hit) return hit;
+  }
+  const snap = await loadSnapshotBase(env, request);
+  const codes = (snap?.fx || [])
+    .map((r) => String(r.pair || "").replace(/INR$/, ""))
+    .filter((c) => /^[A-Z]{3}$/.test(c) && c !== "USD");
+  const from = new Date(Date.now() - 420 * 86400000).toISOString().slice(0, 10);
+  const src = `https://api.frankfurter.dev/v1/${from}..?base=USD&symbols=INR,${codes.join(",")}`;
+  let body;
+  try {
+    const r = await fetch(src, { cf: { cacheTtl: 21600 } });
+    if (!r.ok) throw new Error("upstream " + r.status);
+    const d = await r.json();
+    const series = {};
+    for (const [t, row] of Object.entries(d.rates || {})) {
+      const inr = row.INR;
+      if (!inr) continue;
+      (series.USDINR ||= []).push({ t, v: +inr.toFixed(6) });
+      for (const c of codes) {
+        if (row[c]) (series[c + "INR"] ||= []).push({ t, v: +(inr / row[c]).toPrecision(8) });
+      }
+    }
+    body = { source: "Frankfurter / ECB reference rates (daily close, cross via USD)", sourceUrl: src, from: d.start_date, to: d.end_date, series };
+  } catch (e) {
+    return json({ error: "long history unavailable", detail: String(e?.message || e) }, 503);
+  }
+  const res = json(body);
+  res.headers.set("Cache-Control", "public, max-age=21600");
+  if (cache && ctx) ctx.waitUntil(cache.put(key, res.clone()));
+  return res;
+}
+
 export default {
-  async fetch(request, env) {
+  async fetch(request, env, ctx) {
     const url = new URL(request.url);
     const path = url.pathname;
 
@@ -84,7 +123,7 @@ export default {
       const snap = await loadSnapshotBase(env, request);
       return json({
         ok: true,
-        service: "fx-analysis-v2",
+        service: env.SERVICE_NAME || "fx-analysis-v2",
         asOf: snap?.asOf ?? null,
         fxCount: snap?.fx?.length ?? 0,
         dataSource: snap?.dataSource ?? null,
@@ -104,6 +143,10 @@ export default {
       const hist = await loadHistoryBase(env, request);
       if (!hist) return json({ error: "history unavailable" }, 503);
       return json(hist);
+    }
+
+    if (path === "/api/longhistory" && request.method === "GET") {
+      return loadLongHistory(env, request, ctx);
     }
 
     if (path === "/api/meta" && request.method === "GET") {

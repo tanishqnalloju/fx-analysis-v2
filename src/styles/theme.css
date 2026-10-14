@@ -720,3 +720,14 @@
     margin-top: 12px;
     font-family: var(--mono); font-size: 11px; color: var(--faint);
   }
+
+.unusual { margin-bottom: 12px; }
+.unusual-row { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); }
+.u-cell { display: flex; flex-direction: column; gap: 2px; padding: 8px 12px; border-right: 1px solid var(--hairline); }
+.u-cell:last-child { border-right: 0; }
+.u-cell .z { font-size: 15px; font-weight: 500; }
+.mono.vs-up, td.vs-up { color: var(--vsinr-up); }
+.mono.vs-down, td.vs-down { color: var(--vsinr-down); }
+.panel .foot { font-size: 11px; padding: 8px 12px; }
+.panel .tbl a { color: inherit; text-decoration: underline dotted; }
+@media (max-width: 720px) { .unusual-row { grid-template-columns: repeat(2, 1fr); } }

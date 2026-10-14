@@ -1,0 +1,17 @@
+{
+  "label": "Hand-maintained calendar · verified against official schedules",
+  "updated": "2026-10-14",
+  "events": [
+    { "date": "2026-09-16", "kind": "fomc", "label": "FOMC decision (Sep 15–16)", "source": "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm" },
+    { "date": "2026-10-07", "kind": "rbi", "label": "RBI MPC decision (Oct 5–7)", "source": "https://www.rbi.org.in/Scripts/BS_PressReleaseDisplay.aspx?prid=62422" },
+    { "date": "2026-10-12", "kind": "incpi", "label": "India CPI (Sep 2026)", "source": "https://www.mospi.gov.in/release-calendar" },
+    { "date": "2026-10-28", "kind": "fomc", "label": "FOMC decision (Oct 27–28)", "source": "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm" },
+    { "date": "2026-11-06", "kind": "nfp", "label": "US NFP (Oct 2026)", "source": "https://www.bls.gov/schedule/news_release/empsit.htm" },
+    { "date": "2026-11-10", "kind": "uscpi", "label": "US CPI (Oct 2026)", "source": "https://www.bls.gov/schedule/news_release/cpi.htm" },
+    { "date": "2026-11-12", "kind": "incpi", "label": "India CPI (Oct 2026)", "source": "https://www.mospi.gov.in/uploads/documents/releaseCalender/1791356248513-ARC_2026_27_Sept_2026.pdf" },
+    { "date": "2026-12-04", "kind": "rbi", "label": "RBI MPC decision (Dec 2–4)", "source": "https://www.rbi.org.in/Scripts/BS_PressReleaseDisplay.aspx?prid=62422" },
+    { "date": "2026-12-04", "kind": "nfp", "label": "US NFP (Nov 2026)", "source": "https://www.bls.gov/schedule/news_release/empsit.htm" },
+    { "date": "2026-12-09", "kind": "fomc", "label": "FOMC decision (Dec 8–9)", "source": "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm" },
+    { "date": "2026-12-10", "kind": "uscpi", "label": "US CPI (Nov 2026)", "source": "https://www.bls.gov/schedule/news_release/cpi.htm" }
+  ]
+}

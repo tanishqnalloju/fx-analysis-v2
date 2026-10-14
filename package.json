@@ -3,13 +3,14 @@
   "version": "2.0.0",
   "private": true,
   "type": "module",
-  "description": "FX Analysis v2 \u2014 INR real-strength research desk (read-only KV consumer)",
+  "description": "FX Analysis v2 — INR real-strength research desk (read-only KV consumer)",
   "scripts": {
     "dev": "vite",
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview",
     "deploy": "npm run build && node scripts/verify-wrangler-name.mjs && npx wrangler deploy",
-    "check": "tsc --noEmit --pretty false"
+    "check": "tsc --noEmit --pretty false",
+    "deploy:preview": "npm run build && node scripts/deploy-preview.mjs"
   },
   "dependencies": {
     "react": "^19.1.1",

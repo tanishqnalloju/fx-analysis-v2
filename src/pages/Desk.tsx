@@ -4,6 +4,7 @@ import { FxPct } from "../components/Pct";
 import { asOfDate, chgTone, findFx, findHard, formatInr, formatPct, formatRate, vsInrTone } from "../lib/format";
 import { useSnapshot } from "../lib/SnapshotContext";
 import { deskFxWithAsia } from "../lib/takeaway";
+import { EventCalendar, RangeContext, UnusualStrip } from "../components/TraderContext";
 
 function heatClass(chg: number | null | undefined) {
   const t = vsInrTone(chg);
@@ -111,6 +112,7 @@ export function Desk() {
       </div>
       <StatusTicker />
       <ColorLegend />
+      <UnusualStrip fx={snap.fx || []} series={history?.series} asOf={asOf} source={snap.fx?.[0]?.source} />
 
       <div className="kpi-strip">
         <div className="kpi primary">
@@ -265,6 +267,9 @@ export function Desk() {
           </table>
         </section>
       </div>
+
+      <RangeContext />
+      <EventCalendar series={history?.series} />
 
       <div className="takeaway-line">
         <span className="tl-label">Takeaway</span>
