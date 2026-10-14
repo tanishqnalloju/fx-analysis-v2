@@ -98,6 +98,32 @@ async function loadLongHistory(env, request, ctx) {
   return res;
 }
 
+const ECB_CODES = new Set("AUD BRL CAD CHF CNY CZK DKK EUR GBP HKD HUF IDR ILS ISK JPY KRW MXN MYR NOK NZD PHP PLN RON SEK SGD THB TRY USD ZAR".split(" "));
+const PAIR_FROM = "2010-01-01";
+async function loadPairHistory(request, ctx, code) {
+  if (!ECB_CODES.has(code)) return json({ error: "unsupported code (ECB reference set only)", code, supported: [...ECB_CODES] }, 400);
+  const cache = typeof caches !== "undefined" ? caches.default : null;
+  const key = new Request(`https://cache.internal/pairhistory-v1/${code}`);
+  if (cache) { const hit = await cache.match(key); if (hit) return hit; }
+  const src = code === "USD"
+    ? `https://api.frankfurter.dev/v1/${PAIR_FROM}..?base=USD&symbols=INR`
+    : `https://api.frankfurter.dev/v1/${PAIR_FROM}..?base=${code}&symbols=INR`;
+  let body;
+  try {
+    const r = await fetch(src, { cf: { cacheTtl: 21600 } });
+    if (!r.ok) throw new Error("upstream " + r.status);
+    const d = await r.json();
+    const pts = Object.entries(d.rates || {}).filter(([, row]) => row.INR).map(([t, row]) => [t, row.INR]).sort((a, b) => (a[0] < b[0] ? -1 : 1));
+    body = { pair: code + "INR", source: "Frankfurter / ECB reference rates (daily, ~16:00 CET)", sourceUrl: src, from: pts[0]?.[0], to: pts.at(-1)?.[0], points: pts };
+  } catch (e) {
+    return json({ error: "pair history unavailable", detail: String(e?.message || e) }, 503);
+  }
+  const res = json(body);
+  res.headers.set("Cache-Control", "public, max-age=21600");
+  if (cache && ctx) ctx.waitUntil(cache.put(key, res.clone()));
+  return res;
+}
+
 export default {
   async fetch(request, env, ctx) {
     const url = new URL(request.url);
@@ -147,6 +173,10 @@ export default {
 
     if (path === "/api/longhistory" && request.method === "GET") {
       return loadLongHistory(env, request, ctx);
+    }
+
+    if (path === "/api/pairhistory" && request.method === "GET") {
+      return loadPairHistory(request, ctx, (url.searchParams.get("code") || "").trim().toUpperCase());
     }
 
     if (path === "/api/meta" && request.method === "GET") {
