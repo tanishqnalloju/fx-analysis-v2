@@ -39,6 +39,20 @@ export function chgTone(n: number | null | undefined): "weaker" | "stronger" | "
   return "flat";
 }
 
+/**
+ * Shared "vs INR" tone for XXXINR session Δ% (Majors bars + Peer heatmap).
+ * XXXINR up  => foreign currency appreciating vs INR => "up"   (green / --vsinr-up)
+ * XXXINR down=> foreign currency depreciating vs INR => "down" (red   / --vsinr-down)
+ * Intensity 0..2 for heat steps.
+ */
+export function vsInrTone(n: number | null | undefined): { dir: "up" | "down" | "flat"; level: 0 | 1 | 2 } {
+  if (n == null || !Number.isFinite(Number(n))) return { dir: "flat", level: 0 };
+  const v = Number(n);
+  const a = Math.abs(v);
+  if (a < 0.05) return { dir: "flat", level: 0 };
+  return { dir: v > 0 ? "up" : "down", level: a >= 0.35 ? 2 : 1 };
+}
+
 /** Relative strength / slip: up = strengthened (teal). */
 export function strengthTone(n: number | null | undefined): "up" | "down" | "flat" {
   if (n == null || !Number.isFinite(Number(n))) return "flat";

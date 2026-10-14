@@ -231,6 +231,8 @@
   .mono { font-family: var(--mono); font-variant-numeric: tabular-nums; }
   .muted { color: var(--muted); }
   .faint { color: var(--faint); }
+  /* Shared "vs INR" token pair (teal = currency up vs INR, coral = down). Per-theme via fx tokens. */
+  html { --vsinr-up: var(--fx-stronger); --vsinr-down: var(--fx-weaker); }
   .teal { color: var(--fx-stronger); }
   .coral { color: var(--fx-weaker); }
   .warn { color: var(--warn); }
@@ -607,15 +609,11 @@
   .div-bar {
     position: absolute; top: 1px; bottom: 1px; height: auto;
   }
-  .div-bar.neg {
-    right: 50%; background: var(--fx-stronger);
-  }
-  .div-bar.pos {
-    left: 50%; background: var(--fx-weaker);
-  }
+  .div-bar.vs-down { right: 50%; background: var(--vsinr-down); }
+  .div-bar.vs-up { left: 50%; background: var(--vsinr-up); }
   .div-pct { text-align: right; }
-  .div-pct.neg { color: var(--fx-stronger); }
-  .div-pct.pos { color: var(--fx-weaker); }
+  .div-pct.vs-down { color: var(--vsinr-down); }
+  .div-pct.vs-up { color: var(--vsinr-up); }
 
   .heat-wrap { padding: 8px 10px 10px; }
   .heat-grid {
@@ -633,11 +631,11 @@
   }
   .heat-cell .c { font-weight: 500; font-size: 11px; color: var(--text); }
   .heat-cell .d { color: var(--muted); font-size: 10px; margin-top: 1px; }
-  .heat-cell.n2 { background: var(--heat-n2); }
-  .heat-cell.n1 { background: var(--heat-n1); }
-  .heat-cell.z  { background: var(--heat-0); }
-  .heat-cell.p1 { background: var(--heat-p1); }
-  .heat-cell.p2 { background: var(--heat-p2); }
+  .heat-cell.vs-flat { background: var(--heat-0); }
+  .heat-cell.vs-up.l1   { background: color-mix(in srgb, var(--vsinr-up) 18%, var(--heat-0)); }
+  .heat-cell.vs-up.l2   { background: color-mix(in srgb, var(--vsinr-up) 36%, var(--heat-0)); }
+  .heat-cell.vs-down.l1 { background: color-mix(in srgb, var(--vsinr-down) 18%, var(--heat-0)); }
+  .heat-cell.vs-down.l2 { background: color-mix(in srgb, var(--vsinr-down) 36%, var(--heat-0)); }
 
   .tbl {
     width: 100%; border-collapse: collapse;

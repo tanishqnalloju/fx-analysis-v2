@@ -1,36 +1,32 @@
 import { StatusTicker } from "../components/StatusTicker";
 import { ColorLegend } from "../components/ColorLegend";
 import { FxPct } from "../components/Pct";
-import { asOfDate, chgTone, findFx, findHard, formatInr, formatPct, formatRate } from "../lib/format";
+import { asOfDate, chgTone, findFx, findHard, formatInr, formatPct, formatRate, vsInrTone } from "../lib/format";
 import { useSnapshot } from "../lib/SnapshotContext";
 import { deskFxWithAsia } from "../lib/takeaway";
 
 function heatClass(chg: number | null | undefined) {
-  if (chg == null || !Number.isFinite(chg)) return "z";
-  if (chg <= -0.35) return "n2";
-  if (chg < -0.05) return "n1";
-  if (chg < 0.05) return "z";
-  if (chg < 0.35) return "p1";
-  return "p2";
+  const t = vsInrTone(chg);
+  return t.dir === "flat" ? "vs-flat" : `vs-${t.dir} l${t.level}`;
 }
 
 function DivBar({ pair, chg }: { pair: string; chg: number | null }) {
   const max = 0.8;
   const v = chg == null || !Number.isFinite(chg) ? null : chg;
   const pct = v == null ? 0 : Math.min(50, (Math.abs(v) / max) * 50);
-  const tone = chgTone(v);
+  const tone = vsInrTone(v).dir;
   return (
     <div className="div-row">
       <span className="pair">{pair.replace("INR", "")}</span>
       <div className="div-track">
         {v != null && v !== 0 && (
           <div
-            className={`div-bar ${v > 0 ? "pos" : "neg"}`}
+            className={`div-bar ${v > 0 ? "vs-up" : "vs-down"}`}
             style={{ width: `${pct}%` }}
           />
         )}
       </div>
-      <span className={`div-pct ${tone === "weaker" ? "pos" : tone === "stronger" ? "neg" : ""}`}>
+      <span className={`div-pct ${tone === "flat" ? "" : `vs-${tone}`}`}>
         {formatPct(v)}
       </span>
     </div>
@@ -169,7 +165,7 @@ export function Desk() {
       <div className="blotter-2">
         <section className="panel">
           <div className="panel-h">
-            Majors session Δ <span className="meta">left = stronger INR · right = weaker</span>
+            Majors session Δ <span className="meta">green = currency up vs INR · red = currency down vs INR</span>
           </div>
           <div className="div-list">
             {deskFx.map((row: any) => (
@@ -180,7 +176,7 @@ export function Desk() {
         </section>
         <section className="panel">
           <div className="panel-h">
-            Peer heatmap <span className="meta">session Δ%</span>
+            Peer heatmap <span className="meta">session Δ% · green = currency up vs INR · red = down</span>
           </div>
           <div className="heat-wrap">
             <div className="heat-grid">

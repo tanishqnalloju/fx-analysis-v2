@@ -14,7 +14,9 @@ export function ColorLegend() {
         <i className="accent" /> Accent = nav / focus
       </span>
       <span className="sw">
-        <i className="heat" /> Heat = peer session Δ
+        <i className="stronger" /> Majors + heatmap: green = currency up vs INR</span>
+      <span className="sw">
+        <i className="weaker" /> Majors + heatmap: red = currency down vs INR
       </span>
     </div>
   );
