@@ -8,6 +8,7 @@ import { Slip } from "./pages/Slip";
 import { How } from "./pages/How";
 import { Notes } from "./pages/Notes";
 import { History } from "./pages/History";
+import { Reserves } from "./pages/Reserves";
 
 export default function App() {
   return (
@@ -19,6 +20,7 @@ export default function App() {
           <Route path="compare" element={<Navigate to="/compare/USD" replace />} />
           <Route path="compare/:code" element={<Compare />} />
           <Route path="history" element={<History />} />
+          <Route path="reserves" element={<Reserves />} />
           <Route path="slip" element={<Slip />} />
           <Route path="how" element={<How />} />
           <Route path="notes/:date" element={<Notes />} />

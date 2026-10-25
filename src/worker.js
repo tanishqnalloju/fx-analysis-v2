@@ -124,6 +124,29 @@ async function loadPairHistory(request, ctx, code) {
   return res;
 }
 
+/** USD-based daily ECB reference rates for INR, the RBI 6-currency basket members and peer EMs (for /reserves). Edge-cached 6h. */
+const EMFX_CODES = ["INR", "EUR", "GBP", "JPY", "CNY", "HKD", "IDR", "KRW", "THB", "PHP", "MYR", "BRL", "ZAR", "MXN"];
+async function loadEmFx(ctx) {
+  const cache = typeof caches !== "undefined" ? caches.default : null;
+  const key = new Request("https://cache.internal/emfx-v1");
+  if (cache) { const hit = await cache.match(key); if (hit) return hit; }
+  const src = `https://api.frankfurter.dev/v1/2018-12-01..?base=USD&symbols=${EMFX_CODES.join(",")}`;
+  let body;
+  try {
+    const r = await fetch(src, { cf: { cacheTtl: 21600 } });
+    if (!r.ok) throw new Error("upstream " + r.status);
+    const d = await r.json();
+    const rows = Object.entries(d.rates || {}).sort((a, b) => (a[0] < b[0] ? -1 : 1)).map(([t, row]) => [t, ...EMFX_CODES.map((c) => row[c] ?? null)]);
+    body = { source: "Frankfurter / ECB reference rates (daily, units of currency per 1 USD)", sourceUrl: src, from: rows[0]?.[0], to: rows.at(-1)?.[0], codes: EMFX_CODES, rows };
+  } catch (e) {
+    return json({ error: "emfx unavailable", detail: String(e?.message || e) }, 503);
+  }
+  const res = json(body);
+  res.headers.set("Cache-Control", "public, max-age=21600");
+  if (cache && ctx) ctx.waitUntil(cache.put(key, res.clone()));
+  return res;
+}
+
 export default {
   async fetch(request, env, ctx) {
     const url = new URL(request.url);
@@ -173,6 +196,10 @@ export default {
 
     if (path === "/api/longhistory" && request.method === "GET") {
       return loadLongHistory(env, request, ctx);
+    }
+
+    if (path === "/api/emfx" && request.method === "GET") {
+      return loadEmFx(ctx);
     }
 
     if (path === "/api/pairhistory" && request.method === "GET") {

@@ -259,3 +259,56 @@ select.theme-btn {
 .history .warn { color: var(--warn); }
 .history .mon-tbl td.heat-cell { display: table-cell; aspect-ratio: auto; width: auto; height: auto; min-width: 0; min-height: 0; font-size: 11px; }
 .history .h-grid .panel-h { flex-wrap: wrap; }
+
+/* Reserves & Debt */
+.reserves .pad { padding: 6px 12px; }
+.reserves .panel { margin-bottom: var(--s5); border: 1px solid var(--hairline); }
+.reserves .panel-h.sub { border-top: 1px solid var(--hairline); font-weight: 400; color: var(--muted); }
+.reserves .panel-h .chip { font-size: 11px; padding: 2px 8px; }
+.reserves .kpis { display: flex; flex-wrap: wrap; gap: var(--s5); padding: 8px 12px; font-size: 12px; color: var(--muted); }
+.reserves .kpis b { color: var(--text); font-weight: 500; }
+.reserves .kpis.big { font-size: 13px; }
+.reserves .kpis .vs-up { color: var(--vsinr-up); } .reserves .kpis .vs-down { color: var(--vsinr-down); }
+.reserves .tbl { border-collapse: collapse; width: 100%; font-size: 11px; font-variant-numeric: tabular-nums; }
+.reserves .tbl th, .reserves .tbl td { padding: 3px 6px; border-bottom: 1px solid var(--hairline); text-align: right; white-space: nowrap; }
+.reserves .tbl th:first-child, .reserves .tbl td:first-child { text-align: left; }
+.reserves .tbl thead th { color: var(--muted); font-weight: 400; }
+.reserves .tbl td.ev-t { text-align: left; white-space: normal; min-width: 18em; }
+.reserves .tbl.cov td, .reserves .tbl.cov th { text-align: left; }
+.reserves .tbl a { color: inherit; text-decoration: underline dotted; }
+.reserves .ev-list { max-height: 460px; overflow: auto; }
+.reserves .ev-list thead th { position: sticky; top: 0; background: var(--surface); }
+.reserves .ev-list tr.on td { background: var(--raised); }
+.reserves .ev-list tr.on td:first-child { box-shadow: inset 2px 0 0 var(--accent); }
+.reserves .th-btn, .reserves .linkish { background: none; border: 0; color: inherit; font: inherit; cursor: pointer; padding: 0; }
+.reserves .linkish { color: var(--accent); text-decoration: underline dotted; }
+.reserves .th-btn:focus-visible, .reserves .linkish:focus-visible, .reserves .lw:focus-visible, .reserves .chip:focus-visible, .reserves .ev-card:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.reserves .kind-row { display: flex; flex-wrap: wrap; gap: 6px; padding: 8px 12px; }
+.reserves .k-chip { opacity: .55; } .reserves .k-chip.on { opacity: 1; background: var(--raised); color: var(--text); }
+.reserves .ev-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 6px; vertical-align: middle; background: var(--muted); }
+.reserves .ev-dot.k-sale, .reserves .ev-dot.k-drop { background: var(--warn); }
+.reserves .ev-dot.k-purchase { background: var(--accent); }
+.reserves .ev-dot.k-record { background: var(--vsinr-up); }
+.reserves .ev-dot.k-fomc { background: var(--faint); }
+.reserves .ev-card { margin: 4px 12px 12px; padding: 10px 12px; border: 1px solid var(--border); border-left: 3px solid var(--accent); background: var(--raised); font-size: 13px; max-width: 760px; }
+.reserves .ev-card p { margin: 6px 0; }
+.reserves .ev-card a { color: var(--accent); }
+.reserves .ev-card-h { display: flex; align-items: center; gap: 6px; font: 12px var(--mono); color: var(--muted); }
+.reserves .ev-nav { margin-left: auto; display: inline-flex; gap: 4px; }
+.reserves .ev-title { font-weight: 500; color: var(--text); }
+.reserves .ev-eff { max-width: 420px; }
+.reserves .ev-eff td.vs-up { color: var(--vsinr-up); } .reserves .ev-eff td.vs-down { color: var(--vsinr-down); }
+.reserves .sc-svg { width: 100%; height: 260px; }
+.reserves .sc-svg .ax { stroke: var(--border); } .reserves .sc-svg .fit { stroke: var(--muted); stroke-dasharray: 4 3; }
+.reserves .sc-svg .axt { fill: var(--muted); font: 10px var(--mono); }
+.reserves .small { font-size: 11px; color: var(--muted); }
+.reserves .hl { color: var(--text); font-weight: 600; }
+.reserves .readout h2 { font-size: 13px; font-weight: 500; margin: 8px 0; }
+.reserves .readout ul { margin: 0; padding-left: 18px; font-size: 13px; line-height: 1.5; max-width: 70em; }
+.reserves .readout li { margin-bottom: 6px; }
+.reserves .h-controls.pad { display: flex; flex-wrap: wrap; gap: var(--s4); align-items: center; font-size: 12px; color: var(--muted); }
+.reserves .h-grid > div { min-width: 0; border: 1px solid var(--hairline); }
+
+.reserves .tbl th.l { text-align: left; }
+.reserves .tbl-wrap { overflow-x: auto; }
+.reserves .ev-card { position: fixed; right: 16px; bottom: 16px; z-index: 50; width: min(480px, calc(100vw - 32px)); max-height: 72vh; overflow: auto; margin: 0; box-shadow: 0 8px 28px rgba(0,0,0,.35); }
